@@ -1,6 +1,8 @@
 package pom.poly.com.tryimagepricker;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -47,8 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
-//            resultView.setImageURI(Crop.getOutput(result));
-            Picasso.with(this).load(Crop.getOutput(result)).into(im);
+            Bitmap bitmap= BitmapFactory.decodeFile(Crop.getOutput(result).toString());
+            im.setImageBitmap(bitmap);
+            im.setImageURI(Crop.getOutput(result));
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
         }
