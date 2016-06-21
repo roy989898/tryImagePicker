@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -12,16 +14,21 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView im;
+    private Button btCrop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         im = (ImageView) findViewById(R.id.im);
-        Crop.pickImage(this);
+        btCrop = (Button) findViewById(R.id.btCrop);
+
+        btCrop.setOnClickListener(this);
+
     }
 
     @Override
@@ -44,6 +51,17 @@ public class MainActivity extends AppCompatActivity {
             Picasso.with(this).load(Crop.getOutput(result)).into(im);
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+
+        switch (id) {
+            case R.id.btCrop:
+                Crop.pickImage(this);
+                break;
         }
     }
 }
